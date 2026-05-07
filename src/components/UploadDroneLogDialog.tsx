@@ -1464,7 +1464,7 @@ export const UploadDroneLogDialog = ({ open, onOpenChange }: UploadDroneLogDialo
         updates.battery_max_cell_deviation_v = r.batteryCellDeviationMax;
       }
       if (Object.keys(updates).length > 0) {
-        await supabase.from('equipment').update(updates).eq('id', bat.id);
+        await supabase.from('equipment').update(updates as any).eq('id', bat.id);
       }
     }
   };

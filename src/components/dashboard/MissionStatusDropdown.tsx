@@ -59,7 +59,7 @@ export const MissionStatusDropdown = ({
 
     const { error } = await supabase
       .from("missions")
-      .update(payload)
+      .update(payload as any)
       .eq("id", missionId);
 
     if (error) {
