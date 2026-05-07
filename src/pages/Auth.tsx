@@ -421,7 +421,7 @@ const Auth = () => {
       // IMPORTANT: For split-domain setup (login.avisafe.no -> app.avisafe.no),
       // the OAuth callback must land on the APP domain so the session is stored
       // in the correct origin (localStorage is per-domain).
-      const redirectTo = window.location.hostname.includes('lovableproject.com') || window.location.hostname === 'localhost'
+      const redirectTo = isDevelopment()
         ? `${window.location.origin}/auth`
         : 'https://app.avisafe.no/auth';
 
