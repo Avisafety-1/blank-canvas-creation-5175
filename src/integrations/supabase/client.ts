@@ -2,71 +2,8 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-
-import { isRefreshLockedByOtherTab, setRefreshLock, broadcastSession } from '@/lib/authTabSync';
-
-// --- Deduplicated session refresh ---
-let activeRefreshPromise: Promise<void> | null = null;
-
-/**
- * Ensures a fresh session exists. Deduplicates concurrent refresh calls
- * so that multiple 401 responses only trigger ONE refreshSession() call.
- *
- * Cross-tab aware: if another tab recently refreshed (localStorage lock),
- * this tab skips the refresh and just re-reads the session from storage
- * (Supabase persists tokens in localStorage automatically).
- */
-export async function ensureFreshSession(): Promise<void> {
-  if (activeRefreshPromise) return activeRefreshPromise;
-
-  // If another tab just refreshed, skip — tokens are already fresh in localStorage
-  if (isRefreshLockedByOtherTab()) {
-    console.log('ensureFreshSession: another tab refreshed recently, reading session from storage');
-    // Force Supabase to re-read tokens from localStorage
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-      return; // tokens are fresh
-    }
-    // If getSession returned null despite the lock, fall through to refresh
-    console.warn('ensureFreshSession: lock set but no session in storage, proceeding with refresh');
-  }
-
-  setRefreshLock();
-  activeRefreshPromise = supabase.auth.refreshSession()
-    .then(({ data, error }) => {
-      if (error) {
-        console.warn('ensureFreshSession: refresh failed', error.message);
-        throw error;
-      }
-      console.log('ensureFreshSession: token refreshed successfully');
-      // Broadcast the new session to other tabs
-      if (data.session) {
-        broadcastSession(data.session);
-      }
-    })
-    .finally(() => {
-      activeRefreshPromise = null;
-    });
-  return activeRefreshPromise;
-}
-
-// --- 401 auto-retry fetch wrapper ---
-const fetchWithRetry: typeof fetch = async (input, init) => {
-  const res = await fetch(input, init);
-  if (res.status === 401) {
-    try {
-      await ensureFreshSession();
-      // Retry once with fresh token
-      return fetch(input, init);
-    } catch {
-      // Refresh failed — return original 401
-      return res;
-    }
-  }
-  return res;
-};
+const SUPABASE_URL = "https://uxubtwvcplkfifwoncgj.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4dWJ0d3ZjcGxrZmlmd29uY2dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNjU2NjcsImV4cCI6MjA5Mzc0MTY2N30.9wZcpMktb0sq__wCcu3YeNliwJnXzV7zasdNKF-C1hU";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
@@ -76,8 +13,5 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
-  },
-  global: {
-    fetch: fetchWithRetry,
-  },
+  }
 });

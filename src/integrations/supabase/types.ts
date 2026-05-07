@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -3878,13 +3878,8 @@ export type Database = {
           edge_5xx_per_10m: number
           edge_p95_ms: number
           enabled: boolean
-          errors_per_ip_per_10m: number
           id: number
-          latency_p95_alert_enabled: boolean
-          rate_limit_per_10m: number
           recipient_emails: string[]
-          request_volume_per_10m: number
-          request_volume_spike_factor: number
           updated_at: string
         }
         Insert: {
@@ -3893,13 +3888,8 @@ export type Database = {
           edge_5xx_per_10m?: number
           edge_p95_ms?: number
           enabled?: boolean
-          errors_per_ip_per_10m?: number
           id?: number
-          latency_p95_alert_enabled?: boolean
-          rate_limit_per_10m?: number
           recipient_emails?: string[]
-          request_volume_per_10m?: number
-          request_volume_spike_factor?: number
           updated_at?: string
         }
         Update: {
@@ -3908,13 +3898,8 @@ export type Database = {
           edge_5xx_per_10m?: number
           edge_p95_ms?: number
           enabled?: boolean
-          errors_per_ip_per_10m?: number
           id?: number
-          latency_p95_alert_enabled?: boolean
-          rate_limit_per_10m?: number
           recipient_emails?: string[]
-          request_volume_per_10m?: number
-          request_volume_spike_factor?: number
           updated_at?: string
         }
         Relationships: []
