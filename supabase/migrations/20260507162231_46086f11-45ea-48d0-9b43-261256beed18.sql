@@ -1,0 +1,1 @@
+SELECT cron.alter_job(jobid, active := false) FROM cron.job WHERE active = true;
