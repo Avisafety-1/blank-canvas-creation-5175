@@ -1,0 +1,1 @@
+ALTER TABLE training_courses ADD COLUMN fullscreen boolean NOT NULL DEFAULT false;

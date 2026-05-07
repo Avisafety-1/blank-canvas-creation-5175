@@ -1,0 +1,1 @@
+ALTER TABLE pending_dji_logs ALTER COLUMN duration_seconds TYPE real;

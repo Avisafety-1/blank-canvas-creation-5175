@@ -1,0 +1,1 @@
+ALTER TABLE public.changelog_entries ADD COLUMN priority text NOT NULL DEFAULT 'medium';

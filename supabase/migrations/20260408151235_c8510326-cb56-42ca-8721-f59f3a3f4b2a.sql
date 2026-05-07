@@ -1,0 +1,1 @@
+ALTER TABLE public.drones ADD COLUMN registration_number TEXT;

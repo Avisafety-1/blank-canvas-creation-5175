@@ -1,0 +1,1 @@
+ALTER TABLE public.training_courses ADD COLUMN available_to_all boolean NOT NULL DEFAULT false;

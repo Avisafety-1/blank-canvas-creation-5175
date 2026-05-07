@@ -1,0 +1,2 @@
+ALTER TABLE public.incident_eccairs_attributes DROP CONSTRAINT incident_eccairs_attributes_format_check;
+ALTER TABLE public.incident_eccairs_attributes ADD CONSTRAINT incident_eccairs_attributes_format_check CHECK (format IS NULL OR format = ANY (ARRAY['value_list_int_array','text_content_array','string_array','content_object_array','raw_json','local_date','local_time','utc_date','code_and_additional_text']));

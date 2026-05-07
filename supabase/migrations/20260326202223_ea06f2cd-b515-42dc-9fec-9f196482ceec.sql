@@ -1,0 +1,1 @@
+ALTER TABLE companies ADD COLUMN require_mission_approval boolean NOT NULL DEFAULT false;

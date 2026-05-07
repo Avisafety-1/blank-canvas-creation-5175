@@ -1,0 +1,1 @@
+ALTER TABLE dji_credentials ADD COLUMN IF NOT EXISTS auto_sync_enabled boolean DEFAULT false;

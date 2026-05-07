@@ -1,0 +1,1 @@
+DELETE FROM public.passkeys WHERE credential_id = '' OR credential_id IS NULL;

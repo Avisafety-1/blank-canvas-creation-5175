@@ -1,0 +1,1 @@
+ALTER TABLE public.drones ADD COLUMN post_flight_checklist_id UUID REFERENCES public.documents(id);

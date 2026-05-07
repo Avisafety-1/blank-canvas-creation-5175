@@ -1,0 +1,1 @@
+ALTER TABLE public.companies ADD COLUMN stripe_exempt BOOLEAN NOT NULL DEFAULT false;

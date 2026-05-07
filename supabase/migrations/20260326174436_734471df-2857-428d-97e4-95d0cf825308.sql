@@ -1,0 +1,1 @@
+ALTER TABLE public.companies ADD COLUMN show_all_airspace_warnings boolean NOT NULL DEFAULT false;

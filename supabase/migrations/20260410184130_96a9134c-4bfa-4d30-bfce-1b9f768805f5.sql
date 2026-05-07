@@ -1,0 +1,1 @@
+DELETE FROM public.notams WHERE properties->>'source' IS DISTINCT FROM 'notaminfo';

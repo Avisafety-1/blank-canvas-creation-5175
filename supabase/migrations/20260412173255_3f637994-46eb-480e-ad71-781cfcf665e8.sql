@@ -1,0 +1,1 @@
+ALTER TABLE public.company_sora_config ADD COLUMN default_contingency_height_m integer NOT NULL DEFAULT 30;

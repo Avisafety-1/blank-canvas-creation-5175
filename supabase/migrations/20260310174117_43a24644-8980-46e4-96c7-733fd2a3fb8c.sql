@@ -1,0 +1,1 @@
+ALTER TABLE flight_logs ALTER COLUMN flight_date TYPE timestamptz USING flight_date::timestamptz;

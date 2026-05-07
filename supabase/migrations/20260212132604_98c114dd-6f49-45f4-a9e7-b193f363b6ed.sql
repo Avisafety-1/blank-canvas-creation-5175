@@ -1,0 +1,2 @@
+ALTER TABLE public.missions DROP CONSTRAINT missions_customer_id_fkey;
+ALTER TABLE public.missions ADD CONSTRAINT missions_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(id) ON DELETE SET NULL;

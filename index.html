@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>AviSafe - Sikkerhetsstyringssystem for droneoperasjoner</title>
+    <meta
+      name="description"
+      content="Profesjonelt sikkerhetsstyringssystem for droneoperasjoner med dokumenthåndtering, hendelsesrapportering og ressursstyring"
+    />
+    <meta name="author" content="Drone Safety Solutions" />
+    <meta name="keywords" content="drone, sikkerhet, SMS, luftfart, operasjoner, vedlikehold, hendelser" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AviSafe" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    
+    <!-- Preload critical LCP image for faster rendering -->
+    <link rel="preload" href="/avisafe-logo-text.png" as="image" type="image/png" fetchpriority="high" />
+
+    <meta property="og:title" content="AviSafe - Sikkerhetsstyringssystem" />
+    <meta property="og:description" content="Profesjonelt sikkerhetsstyringssystem for droneoperasjoner" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://app.avisafe.no/avisafe-logo-text.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@AviSafe" />
+    <meta name="twitter:image" content="https://app.avisafe.no/avisafe-logo-text.png" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script>
+      // Polyfill crypto.randomUUID for older WebViews (DJI RC Plus/Pro, Chrome <92)
+      if (typeof crypto !== 'undefined' && !crypto.randomUUID) {
+        crypto.randomUUID = function() {
+          return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, function(c) {
+            var r = crypto.getRandomValues(new Uint8Array(1))[0];
+            return (c ^ r & 15 >> c / 4).toString(16);
+          });
+        };
+      }
+      function showFallback(msg) {
+        var el = document.getElementById('root');
+        if (el && !el.children.length) {
+          el.innerHTML = '<div style="padding:2rem;text-align:center;font-family:sans-serif">' +
+            '<h2>Nettleseren st\u00F8ttes ikke fullt ut</h2>' +
+            '<p>Pr\u00F8v \u00E5 oppdatere nettleseren eller bruk en annen enhet.</p>' +
+            '<p style="font-size:12px;color:#888">Feil: ' + msg + '</p></div>';
+        }
+      }
+      window.onerror = function(msg, url, line, col) {
+        showFallback(msg + ' @ ' + (line || '?') + ':' + (col || '?'));
+      };
+      window.onunhandledrejection = function(e) {
+        showFallback((e && e.reason && e.reason.message) ? e.reason.message : 'Unhandled promise rejection');
+      };
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

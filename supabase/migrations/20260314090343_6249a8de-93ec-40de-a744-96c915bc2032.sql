@@ -1,0 +1,1 @@
+ALTER TABLE public.personnel_competencies ADD COLUMN fil_url text;

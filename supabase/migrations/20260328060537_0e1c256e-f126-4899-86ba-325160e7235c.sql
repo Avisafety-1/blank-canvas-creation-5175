@@ -1,0 +1,1 @@
+ALTER TABLE pending_dji_logs ADD COLUMN IF NOT EXISTS source_file_type text DEFAULT 'dji';

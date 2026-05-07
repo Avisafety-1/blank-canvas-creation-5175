@@ -1,0 +1,1 @@
+UPDATE training_courses SET company_id = 'a6698b2d-8464-4f88-9bc4-ebcc072f629d' WHERE id = '3495b21a-3fc9-46c6-8c69-a94e57a5866d';

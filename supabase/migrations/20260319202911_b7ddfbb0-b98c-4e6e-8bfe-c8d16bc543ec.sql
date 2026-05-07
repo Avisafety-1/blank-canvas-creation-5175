@@ -1,0 +1,1 @@
+ALTER TABLE flight_logs ADD COLUMN IF NOT EXISTS battery_full_capacity_mah integer;

@@ -1,0 +1,1 @@
+DELETE FROM public.pending_dji_logs WHERE status = 'unsupported';

@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS idx_safesky_beacons_updated_at ON public.safesky_beacons (updated_at);

@@ -1,0 +1,1 @@
+ALTER TABLE public.customers ADD COLUMN intern_poc_id uuid REFERENCES public.profiles(id) ON DELETE SET NULL;

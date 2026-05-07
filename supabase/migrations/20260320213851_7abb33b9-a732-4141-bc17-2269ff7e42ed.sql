@@ -1,0 +1,1 @@
+ALTER TABLE public.flight_logs ADD COLUMN IF NOT EXISTS battery_cell_deviation_max_v double precision;

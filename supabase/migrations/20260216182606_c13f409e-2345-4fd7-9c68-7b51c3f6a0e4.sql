@@ -1,0 +1,1 @@
+ALTER TABLE mission_risk_assessments ADD COLUMN sora_output jsonb;

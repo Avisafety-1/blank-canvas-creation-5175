@@ -1,0 +1,1 @@
+ALTER TABLE public.companies ADD COLUMN ardupilot_enabled boolean NOT NULL DEFAULT false;

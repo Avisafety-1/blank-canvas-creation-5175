@@ -1,0 +1,1 @@
+ALTER TABLE missions ADD COLUMN ninox_approved boolean DEFAULT false;

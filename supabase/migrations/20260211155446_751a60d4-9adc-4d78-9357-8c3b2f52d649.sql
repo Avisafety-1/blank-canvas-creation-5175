@@ -1,0 +1,1 @@
+ALTER TABLE missions ADD COLUMN approver_comments jsonb NOT NULL DEFAULT '[]'::jsonb;

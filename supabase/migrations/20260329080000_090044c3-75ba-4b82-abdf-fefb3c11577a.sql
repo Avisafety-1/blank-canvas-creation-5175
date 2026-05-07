@@ -1,0 +1,1 @@
+UPDATE eccairs.value_list_items SET value_description = 'Norway (CAA)' WHERE value_list_key = 'VL447' AND value_id = '2133';

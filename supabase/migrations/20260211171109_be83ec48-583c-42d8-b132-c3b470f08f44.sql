@@ -1,0 +1,1 @@
+DELETE FROM aip_restriction_zones WHERE source = 'manual';

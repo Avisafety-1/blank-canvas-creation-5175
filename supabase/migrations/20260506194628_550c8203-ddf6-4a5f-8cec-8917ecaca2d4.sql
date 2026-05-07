@@ -1,0 +1,1 @@
+SELECT cron.alter_job(14, schedule := '50 seconds');

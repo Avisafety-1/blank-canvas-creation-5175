@@ -1,0 +1,1 @@
+ALTER TABLE public.missions ADD COLUMN notam_submitted_at timestamptz;

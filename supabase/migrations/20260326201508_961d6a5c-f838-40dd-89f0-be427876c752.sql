@@ -1,0 +1,1 @@
+ALTER TABLE companies ADD COLUMN hide_reporter_identity boolean NOT NULL DEFAULT false;

@@ -1,0 +1,1 @@
+ALTER TABLE public.drones ADD COLUMN maintenance_notification_sent BOOLEAN DEFAULT false;

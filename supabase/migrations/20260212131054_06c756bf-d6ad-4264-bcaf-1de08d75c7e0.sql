@@ -1,0 +1,1 @@
+ALTER TABLE public.customers ALTER COLUMN user_id DROP NOT NULL;

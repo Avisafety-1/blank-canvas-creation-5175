@@ -1,0 +1,1 @@
+ALTER TABLE public.drones ALTER COLUMN sist_inspeksjon TYPE timestamptz USING sist_inspeksjon::timestamptz;

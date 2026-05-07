@@ -1,0 +1,1 @@
+UPDATE public.companies SET stripe_exempt = true;

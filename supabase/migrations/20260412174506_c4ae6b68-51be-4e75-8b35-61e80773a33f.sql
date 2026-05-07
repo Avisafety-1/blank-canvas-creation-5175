@@ -1,0 +1,1 @@
+ALTER TABLE public.company_sora_config RENAME COLUMN default_contingency_height_m TO default_flight_altitude_m;

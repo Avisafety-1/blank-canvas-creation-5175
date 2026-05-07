@@ -1,0 +1,1 @@
+ALTER TABLE public.companies ADD COLUMN departments_enabled boolean NOT NULL DEFAULT false;

@@ -1,0 +1,1 @@
+ALTER TABLE profiles ADD COLUMN uas_operator_number text;

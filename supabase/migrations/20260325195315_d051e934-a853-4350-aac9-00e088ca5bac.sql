@@ -1,0 +1,1 @@
+ALTER TABLE public.company_sora_config ADD COLUMN IF NOT EXISTS require_civil_twilight boolean NOT NULL DEFAULT false;

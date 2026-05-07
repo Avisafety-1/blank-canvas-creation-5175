@@ -1,0 +1,16 @@
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_text text;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_operation_type text;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_start_utc timestamptz;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_end_utc timestamptz;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_schedule_type text;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_schedule_days text[];
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_schedule_windows jsonb;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_area_name text;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_center_lat_wgs84 double precision;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_center_lon_wgs84 double precision;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_radius_nm double precision;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_max_agl_ft integer;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_submitter_name text;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_submitter_company text;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_realtime_contact_name text;
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS notam_realtime_contact_phone text;

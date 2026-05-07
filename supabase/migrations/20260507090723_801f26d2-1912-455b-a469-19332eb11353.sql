@@ -1,0 +1,6 @@
+ALTER TABLE public.monitoring_config
+  ADD COLUMN IF NOT EXISTS rate_limit_per_10m INT NOT NULL DEFAULT 20,
+  ADD COLUMN IF NOT EXISTS request_volume_per_10m INT NOT NULL DEFAULT 5000,
+  ADD COLUMN IF NOT EXISTS request_volume_spike_factor NUMERIC NOT NULL DEFAULT 3.0,
+  ADD COLUMN IF NOT EXISTS errors_per_ip_per_10m INT NOT NULL DEFAULT 50,
+  ADD COLUMN IF NOT EXISTS latency_p95_alert_enabled BOOLEAN NOT NULL DEFAULT true;

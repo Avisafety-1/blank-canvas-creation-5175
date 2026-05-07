@@ -1,0 +1,1 @@
+ALTER TABLE public.mission_deviation_reports ADD COLUMN IF NOT EXISTS flight_phase TEXT;

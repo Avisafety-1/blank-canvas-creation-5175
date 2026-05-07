@@ -1,0 +1,1 @@
+ALTER TABLE public.active_flights ADD COLUMN IF NOT EXISTS long_flight_notified_at timestamptz;
