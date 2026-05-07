@@ -53,7 +53,7 @@ export function useSoraApprovalEnabled(): boolean {
     }
 
     const channel = supabase
-      .channel(`sora-config-${companyId}`)
+      .channel(`sora-config-${companyId}-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         {
