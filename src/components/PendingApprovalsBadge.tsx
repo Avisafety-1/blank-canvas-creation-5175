@@ -52,7 +52,7 @@ export const PendingApprovalsBadge = ({ isAdmin }: PendingApprovalsBadgeProps) =
     fetchPendingCount();
 
     const channel = supabase
-      .channel("pending-approvals")
+      .channel(`pending-approvals-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         {
