@@ -15,3 +15,28 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     autoRefreshToken: true,
   }
 });
+
+// Shared single-flight refresh to avoid concurrent token refresh races
+// across tabs / hooks during PWA resumption and auth flows.
+let _refreshPromise: Promise<void> | null = null;
+let _lastRefreshAt = 0;
+const REFRESH_THROTTLE_MS = 8000;
+
+export async function ensureFreshSession(): Promise<void> {
+  const now = Date.now();
+  if (_refreshPromise) return _refreshPromise;
+  if (now - _lastRefreshAt < REFRESH_THROTTLE_MS) return;
+
+  _refreshPromise = (async () => {
+    try {
+      await supabase.auth.refreshSession();
+      _lastRefreshAt = Date.now();
+    } catch (err) {
+      console.warn('ensureFreshSession: refresh failed', err);
+    } finally {
+      _refreshPromise = null;
+    }
+  })();
+
+  return _refreshPromise;
+}
