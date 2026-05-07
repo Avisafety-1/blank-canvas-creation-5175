@@ -17,7 +17,7 @@ export function useCalendarSubscription() {
   const [generating, setGenerating] = useState(false);
 
   const feedUrl = subscription
-    ? `https://pmucsvrypogtttrajqxq.supabase.co/functions/v1/calendar-feed?token=${subscription.token}`
+    ? `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/calendar-feed?token=${subscription.token}`
     : null;
 
   useEffect(() => {
