@@ -4875,6 +4875,24 @@ export type Database = {
         }
         Relationships: []
       }
+      TEST: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+        }
+        Relationships: []
+      }
       training_assignments: {
         Row: {
           assigned_at: string
