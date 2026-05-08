@@ -2,6 +2,14 @@
 export const LOGIN_DOMAIN = 'login.avisafe.no';
 export const APP_DOMAIN = 'app.avisafe.no';
 
+// Test/pentest domains — treated as same-origin (no cross-domain redirects).
+// Useful for Aikido pentest scope so the agent doesn't escape to production.
+export const TEST_DOMAINS = ['pentest.avisafe.no'];
+
+export const isTestDomain = (): boolean => {
+  return TEST_DOMAINS.includes(window.location.hostname);
+};
+
 /**
  * Check if current hostname is the login domain
  */
@@ -32,7 +40,8 @@ export const isDevelopment = (): boolean => {
     hostname === 'localhost' ||
     hostname === '127.0.0.1' ||
     hostname.includes('lovableproject.com') ||
-    hostname.endsWith('.lovable.app')
+    hostname.endsWith('.lovable.app') ||
+    isTestDomain()
   );
 };
 
