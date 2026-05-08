@@ -2,6 +2,7 @@ import L from "leaflet";
 import { supabase } from "@/integrations/supabase/client";
 import { droneAnimatedIcon } from "@/lib/mapIcons";
 import airportIcon from "@/assets/airport-icon.png";
+import { isTestDomain } from "@/config/domains";
 
 interface FetchParams {
   layer: L.LayerGroup;
