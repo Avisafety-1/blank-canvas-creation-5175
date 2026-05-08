@@ -2,6 +2,7 @@ import L from "leaflet";
 import { supabase } from "@/integrations/supabase/client";
 import { droneAnimatedIcon } from "@/lib/mapIcons";
 import airportIcon from "@/assets/airport-icon.png";
+import { isTestDomain } from "@/config/domains";
 
 interface FetchParams {
   layer: L.LayerGroup;
@@ -18,6 +19,7 @@ interface GeoJsonFetchParams extends FetchParams {
 
 export async function fetchNsmData(params: GeoJsonFetchParams) {
   const { layer, mode, geoJsonRef, setGeoJsonInteractivity, modeRef } = params;
+  if (isTestDomain()) return;
   try {
     const url = "https://services9.arcgis.com/qCxEdsGu1A7NwfY1/ArcGIS/rest/services/Forbudsomr%c3%a5derNSM_v/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson";
     const response = await fetch(url);
@@ -72,6 +74,7 @@ export async function fetchNsmData(params: GeoJsonFetchParams) {
 
 export async function fetchRpasData(params: GeoJsonFetchParams) {
   const { layer, mode, geoJsonRef, setGeoJsonInteractivity, modeRef } = params;
+  if (isTestDomain()) return;
   try {
     const url = "https://services.arcgis.com/a8CwScMFSS2ljjgn/ArcGIS/rest/services/RPAS_AVIGIS1/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson";
     const response = await fetch(url);
@@ -283,6 +286,7 @@ export async function fetchObstacles(params: FetchParams) {
 
 export async function fetchAirportsData(params: FetchParams) {
   const { layer, mode } = params;
+  if (isTestDomain()) return;
   try {
     const url = "https://services.arcgis.com/a8CwScMFSS2ljjgn/ArcGIS/rest/services/FlyplassInfo_PROD/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson";
     const response = await fetch(url);
@@ -800,6 +804,7 @@ export async function fetchKraftledningerInBounds(params: {
 }) {
   const { layer, bounds, zoom, pane, mode } = params;
   layer.clearLayers();
+  if (isTestDomain()) return;
 
   const sw = bounds.getSouthWest();
   const ne = bounds.getNorthEast();
