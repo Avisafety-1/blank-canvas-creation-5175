@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { CloudSun, Route, Satellite, Mountain, Map as MapIcon } from "lucide-react";
 import { renderSoraZones, renderAdjacentAreaZone } from "@/lib/soraGeometry";
 import { useAuth } from "@/contexts/AuthContext";
+import { isTestDomain } from "@/config/domains";
 
 // Re-export types for backward compatibility
 export type { RoutePoint, RouteData, SoraSettings } from "@/types/map";
@@ -607,45 +608,52 @@ export function OpenAIPMap({
     const layerConfigs: LayerConfig[] = [];
     let tensioLuftnettLayer: L.TileLayer.WMS | null = null;
 
+    // Skip third-party direct URLs on test/pentest domain to avoid hitting external services
+    const skipExternal = isTestDomain();
+
     // OpenAIP airspace
-    if (openAipConfig.apiKey && openAipConfig.tiles.airspace) {
+    if (!skipExternal && openAipConfig.apiKey && openAipConfig.tiles.airspace) {
       const airspaceUrl = openAipConfig.tiles.airspace.replace("{key}", openAipConfig.apiKey);
       const airspaceLayer = L.tileLayer(airspaceUrl, { opacity: 0.55, subdomains: "abc" }).addTo(map);
       layerConfigs.push({ id: "airspace", name: "Luftrom (OpenAIP)", layer: airspaceLayer, enabled: true, icon: "layers" });
     }
 
     // NRL
-    const nrlLayer = L.tileLayer.wms("https://wms.geonorge.no/skwms1/wms.nrl5?", {
-      layers: "nrlflate,nrllinje,nrlluftspenn,nrlmast,nrlpunkt", format: "image/png", transparent: true, opacity: 0.8, attribution: 'NRL Luftfartshindre',
-    });
-    layerConfigs.push({ id: "nrl", name: "Luftfartshindre (NRL)", layer: nrlLayer, enabled: false, icon: "alertTriangle" });
+    if (!skipExternal) {
+      const nrlLayer = L.tileLayer.wms("https://wms.geonorge.no/skwms1/wms.nrl5?", {
+        layers: "nrlflate,nrllinje,nrlluftspenn,nrlmast,nrlpunkt", format: "image/png", transparent: true, opacity: 0.8, attribution: 'NRL Luftfartshindre',
+      });
+      layerConfigs.push({ id: "nrl", name: "Luftfartshindre (NRL)", layer: nrlLayer, enabled: false, icon: "alertTriangle" });
+    }
 
     // Verneområder (naturvern + ferdsels-/landingsforbud) — vektorlag fra DB
     const naturvernLayer = L.layerGroup();
     layerConfigs.push({ id: "naturvern", name: "Verneområder", layer: naturvernLayer, enabled: false, icon: "treePine" });
 
     // SSB Arealbruk
-    const arealbrukLayer = L.tileLayer.wms("https://wms.geonorge.no/skwms1/wms.arealbruk?", {
-      layers: "arealbruk", format: "image/png", transparent: true, opacity: 0.6, attribution: "SSB Arealbruk", minZoom: 0, maxZoom: 20, tiled: true,
-    } as any);
-    layerConfigs.push({ id: "arealbruk", name: "Befolkning / Arealbruk (SSB)", layer: arealbrukLayer, enabled: false, icon: "users" });
+    if (!skipExternal) {
+      const arealbrukLayer = L.tileLayer.wms("https://wms.geonorge.no/skwms1/wms.arealbruk?", {
+        layers: "arealbruk", format: "image/png", transparent: true, opacity: 0.6, attribution: "SSB Arealbruk", minZoom: 0, maxZoom: 20, tiled: true,
+      } as any);
+      layerConfigs.push({ id: "arealbruk", name: "Befolkning / Arealbruk (SSB)", layer: arealbrukLayer, enabled: false, icon: "users" });
 
-    // SSB Befolkning
-    const befolkningLayer = L.tileLayer.wms("https://kart.ssb.no/api/mapserver/v1/wms/befolkning_paa_rutenett", {
-      layers: "befolkning_1km_2025", format: "image/png", transparent: true, opacity: 0.65,
-      attribution: 'Befolkning 1km² © <a href="https://www.ssb.no">SSB</a>', minZoom: 0, maxZoom: 20, tiled: true, version: "1.3.0",
-    } as any);
-    layerConfigs.push({ id: "befolkning1km", name: "Befolkning 1 km (SSB)", layer: befolkningLayer, enabled: false, icon: "users" });
+      // SSB Befolkning
+      const befolkningLayer = L.tileLayer.wms("https://kart.ssb.no/api/mapserver/v1/wms/befolkning_paa_rutenett", {
+        layers: "befolkning_1km_2025", format: "image/png", transparent: true, opacity: 0.65,
+        attribution: 'Befolkning 1km² © <a href="https://www.ssb.no">SSB</a>', minZoom: 0, maxZoom: 20, tiled: true, version: "1.3.0",
+      } as any);
+      layerConfigs.push({ id: "befolkning1km", name: "Befolkning 1 km (SSB)", layer: befolkningLayer, enabled: false, icon: "users" });
 
-    // SSB Tettsteder (urban settlements ≥200 residents)
-    const tettstederLayer = L.tileLayer.wms("https://kart.ssb.no/api/mapserver/v1/wms/tettsteder", {
-      layers: "tettsted_2024", format: "image/png", transparent: true, opacity: 0.5,
-      attribution: 'Tettsteder © <a href="https://www.ssb.no">SSB</a>', minZoom: 0, maxZoom: 20, tiled: true, version: "1.3.0",
-    } as any);
-    layerConfigs.push({ id: "tettsteder", name: "Tettsteder (SSB)", layer: tettstederLayer, enabled: false, icon: "users" });
+      // SSB Tettsteder (urban settlements ≥200 residents)
+      const tettstederLayer = L.tileLayer.wms("https://kart.ssb.no/api/mapserver/v1/wms/tettsteder", {
+        layers: "tettsted_2024", format: "image/png", transparent: true, opacity: 0.5,
+        attribution: 'Tettsteder © <a href="https://www.ssb.no">SSB</a>', minZoom: 0, maxZoom: 20, tiled: true, version: "1.3.0",
+      } as any);
+      layerConfigs.push({ id: "tettsteder", name: "Tettsteder (SSB)", layer: tettstederLayer, enabled: false, icon: "users" });
+    }
 
-    // Tensio luftnett (WMS) — kun for Tensio og underavdelinger
-    if (isTensioHierarchy) {
+    // Tensio luftnett (WMS) — kun for Tensio og underavdelinger, og aldri på pentest-domene
+    if (isTensioHierarchy && !skipExternal) {
       tensioLuftnettLayer = L.tileLayer.wms(TENSIO_WMS_URL, {
         layers: "0,1,2,3,4,5,6,7,8,9",
         format: "image/png",
